@@ -9,13 +9,12 @@ router.post("/register", (req, res) => {
   if (user && user.password) {
     const hash = bcrypt.hashSync(user.password, 8);
     // replace password with hash instead of plain-text
-    user.password = hash;
+     user.password = hash;
   } else {
-    res
-    res.status(401).json({ message: "Invalid Credentials" });
+    return res.status(401).json({ message: "Invalid Credentials" });
   }
 
-  db.add(user)
+  return db.add(user)
     .then(newUser => {
       res.status(201).json(newUser);
     })
@@ -31,15 +30,16 @@ router.post("/register", (req, res) => {
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
 
-  db.findBy({ username })
+   db.findBy({ username })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         // create token and send to user
         const token = signToken(user);
-        res.status(200).json({ token, message: `Welcome ${user.username}!` });
+        console.log(token);
+        return res.status(200).json({ token, message: `Welcome ${user.username}!` }).token(token);
       } else {
-        res.status(401).json({ message: "Invalid Credentials" });
+        return res.status(401).json({ message: "Invalid Credentials" });
       }
     })
     .catch(err => {

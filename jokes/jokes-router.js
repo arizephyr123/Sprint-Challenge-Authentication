@@ -4,8 +4,10 @@ const router = require('express').Router();
 
 router.get('/', (req, res, next) => {
   const requestOptions = {
-    headers: { accept: 'application/json' },
+    headers: { accept: 'application/json',
+  authorization: req.token }
   };
+  console.log("req.token", req.token);
 
   axios
     .get('https://icanhazdadjoke.com/search', requestOptions)
