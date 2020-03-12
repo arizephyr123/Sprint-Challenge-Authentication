@@ -2,18 +2,23 @@ const axios = require('axios');
 
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   const requestOptions = {
-    headers: { accept: 'application/json' },
+    headers: { accept: 'application/json',
+  authorization: req.token }
   };
+  console.log("req.token", req.token);
 
   axios
     .get('https://icanhazdadjoke.com/search', requestOptions)
     .then(response => {
+      //console.log("res", res);
       res.status(200).json(response.data.results);
     })
-    .catch(err => {
-      res.status(500).json({ message: 'Error Fetching Jokes', error: err });
+    .catch(async err => {
+      console.log("res", res);
+       await res.status(500).json({ message: 'Error Fetching Jokes', error: err });
+      
     });
 });
 

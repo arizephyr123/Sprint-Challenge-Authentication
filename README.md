@@ -40,11 +40,22 @@ Demonstrate your understanding of this week's concepts by answering the followin
 
 - [ ] What is the purpose of using _sessions_?
 
+Sessions allows the server to "remember" information about a client. The web is stateless, so the user would have to re-enter credentials for each request if it were not saved in sessions memory.
+
 - [ ] What does bcrypt do to help us store passwords in a secure manner.
+
+We can use bcryptjs's hashSync to hash a password before storing it in database. 
 
 - [ ] What does bcrypt do to slow down attackers?
 
+It hashes the info multiple times.
+So for 
+```const hash = bcrypt.hashSync(credentials.password, 14)```
+it would hash the password 2^14 times.
+
 - [ ] What are the three parts of the JSON Web Token?
+
+Header, payload and signature
 
 ## Minimum Viable Product
 
